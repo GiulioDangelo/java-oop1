@@ -1,20 +1,22 @@
-package org.experis.esercizio2;
+package org.experis.bonus1;
 
+import java.math.BigDecimal;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Conto {
+public class ContoBonus {
     private int id;
     private String name;
-    private double balance;
+    private BigDecimal balance;
 
     Random rand = new Random();
     Scanner scan = new Scanner(System.in);
 
 
-    Conto (String name ) {
+    ContoBonus(String name ) {
         this.name = name;
         this.id = rand.nextInt(1000);
+        this.balance = BigDecimal.ZERO;
     }
 
 
@@ -27,11 +29,11 @@ public class Conto {
         do {
             if (temp == 1) {
                 System.out.println("quanto vuoi versare?");
-                int amount = scan.nextInt();
+                BigDecimal amount = scan.nextBigDecimal();
                 add(amount);
             } else if (temp == 2) {
                 System.out.println("quanto vuoi prelevare?");
-                int amount = scan.nextInt();
+                BigDecimal amount = scan.nextBigDecimal();
                 withdraw(amount);
             } else if (temp == 3) {
                 System.out.println("uscito");
@@ -51,19 +53,19 @@ public class Conto {
         return this.id;
     }
 
-    double getBalance() {
+    BigDecimal getBalance() {
         return this.balance;
     }
 
-    double add(int amount) {
-        this.balance += amount;
+    BigDecimal add(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
         System.out.println("hai versato " + this.balance + "$");
         return this.balance;
     }
 
-    double withdraw (int amount) {
-        if (this.balance - amount > 0) {
-            this.balance -= amount;
+    BigDecimal withdraw (BigDecimal amount) {
+        if (this.balance.compareTo(amount) > 0) {
+            this.balance = this.balance.subtract(amount);
              System.out.println("hai prelevato " + this.balance + "$");
         } else {
              System.out.println("errore, non hai abbastanza saldo per prelevare " + amount + "$");
@@ -71,4 +73,5 @@ public class Conto {
         }
         return this.balance;
     }
+
 }
